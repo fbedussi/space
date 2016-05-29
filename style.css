@@ -1,0 +1,50 @@
+:root {
+    --ship-width: 7.3vw;
+    --enemy-width: 8vw;
+}
+
+.hide {
+    display: none !important;
+}
+
+body {
+    cursor: none;
+    background: black;
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+}
+
+.ship {
+    width: var(--ship-width);
+    height: var(--ship-width);
+    fill: white;
+    stroke: white;
+}
+
+.ship svg {
+}
+
+.bullet {
+    width: 2vw;
+    height: 2vw;
+    background: orange;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: calc(var(--ship-width) / 2);
+}
+
+.enemy {
+    width: var(--enemy-width);
+    height: var(--enemy-width);
+    position: absolute;
+    top: 0;
+    left: 0;
+    fill: yellow;
+}
+
+.enemy svg {
+}
