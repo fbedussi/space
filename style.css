@@ -17,14 +17,18 @@ svg {
     height: 100%;
 }
 
+/*.ship, .enemy {
+    border: solid 1px white;
+}*/
+
 .ship {
     width: var(--ship-width);
     height: var(--ship-width);
     fill: white;
     stroke: white;
-}
-
-.ship svg {
+    position: absolute;
+    bottom: 0;
+    left: calc(50% - var(--ship-width));
 }
 
 .bullet {
@@ -44,7 +48,4 @@ svg {
     top: 0;
     left: 0;
     fill: yellow;
-}
-
-.enemy svg {
 }
