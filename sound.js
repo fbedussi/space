@@ -1,12 +1,12 @@
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const masterGainNode = audioContext.createGain();
 masterGainNode.connect(audioContext.destination);
-masterGainNode.gain.value = 0.25;
 
-export function playTone(freq, duration = 500) {
+export function playTone(freq, duration = 500, volume = 0.25, type = 'square') {
+  masterGainNode.gain.value = volume;
   const osc = audioContext.createOscillator();
   osc.connect(masterGainNode);
-  osc.type = 'square';
+  osc.type = type;
   osc.frequency.value = freq;
   osc.start();
 
@@ -18,11 +18,11 @@ export function playTone(freq, duration = 500) {
   });
 }
 
-export function play200sound() {
+export function playStartsound() {
   return playTone(300, 200).then(() => playTone(500, 100));
 }
 
-export function play404sound() {
+export function playGameOversound() {
   return playTone(300, 150)
     .then(() => playTone(250, 200))
     .then(() => playTone(150, 250));
@@ -46,20 +46,38 @@ export function playLooseTune() {
     .then(() => playTone(100, 250));
 }
 
-const synth = window.speechSynthesis;
-const voices = synth.getVoices();
-const voice = voices.find(({ lang }) => lang === 'en-US');
+const noteFreqMap = {
+  A: 440.00,
+  B: 493.88,
+  C: 523.25,
+  D: 369.99,
+  E: 329.63,
+  F: 349.23,
+  G: 392.00,
+}
 
-export function speak(text) {
-  const utterThis = new SpeechSynthesisUtterance(text);
-  utterThis.voice = voice;
-  utterThis.pitch = 1;
-  utterThis.rate = 1;
-  utterThis.volume = 1;
-
-  return new Promise(res => {
-    utterThis.onend = res;
-    synth.cancel();
-    synth.speak(utterThis);
-  });
+let play = true
+export async function playTune(feqIndex = 1, time = 200) {
+  const volume = 0.05;
+  const type = 'sawtooth'
+  const frequencies = [0.25, 0.5, 1, 2, 2.25]
+  const freq = frequencies[Math.round(Math.random() * (frequencies.length - 1))]
+  await playTone(noteFreqMap.A * freq, time * 4, volume, type)
+  await playTone(0, time * 0.25)
+  await playTone(noteFreqMap.C * freq, time * 2, volume, type)
+  await playTone(0, time * 0.25)
+  await playTone(noteFreqMap.G * freq, time * 2, volume, type)
+  await playTone(0, time * 0.25)
+  await playTone(noteFreqMap.F * freq, time * 1, volume, type)
+  await playTone(0, time * 0.25)
+  await playTone(noteFreqMap.G * freq, time * 1, volume, type)
+  await playTone(0, time * 0.25)
+  await playTone(noteFreqMap.A * freq, time * 1, volume, type)
+  await playTone(0, time * 0.25)
+  await playTone(noteFreqMap.A * freq, time * 1, volume, type)
+  await playTone(0, time * 4)
+  play && playTune(feqIndex < frequencies.length ? ++feqIndex : 0, time)
+}
+export function stopTune() {
+  play = false
 }
