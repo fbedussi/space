@@ -3,7 +3,7 @@ class Asteroid  {
     this.imageName = imageName
     this.speed = speed
     this.ctx = ctx
-    this.init()
+    this.init(this.speed)
   }
   
   init(speed) {

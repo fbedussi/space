@@ -1,21 +1,62 @@
+@font-face {
+  font-family: '8bit font';
+  src: url('font.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html, 
 body,
 #canvas {
   width: 100%;
   height: 100%;
   background-image: radial-gradient(gray, black);
+  overflow: hidden;
 }
 
 body {
   position: relative;
-  font-family: impact, sans-serif;
+  font-family: '8bit font', impact, sans-serif;
+  word-spacing: 0.25em;
 }
 
-button {
+h1 {
+  color: white;
+  font-size: 4rem;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+
+h1.hidden {
+  opacity: 0;
+}
+
+.instructionsAndButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+button {
+  margin: 0 auto;
   text-transform: uppercase;
   padding: 1rem;
   font-size: 2.5rem;
@@ -27,9 +68,26 @@ button {
   font: inherit;
 }
 
+.statusBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.statusBar[hidden] {
+  display: none;
+}
+
 legend {
   position: absolute;
-  top: 80px;
+  top: 55px;
   left: 10px;
   color: white;
   border: solid 1px white;
@@ -38,7 +96,7 @@ legend {
   border-radius: 3px;;
 }
 
-div {
+legend div {
   margin-bottom: 0.25rem;
 }
 
@@ -46,3 +104,4 @@ img {
   width: 1rem;
   margin-right: 0.5rem;
 }
+

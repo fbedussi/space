@@ -11,12 +11,22 @@
 
 <body>
   <canvas id="canvas"></canvas>
-  <legend>
+  <div class="statusBar" hidden></div>
+  <legend hidden>
     <div><img src="asteroid.png" /><span>Deadly asteroid</span></div>
     <div><img src="life.png" /><span>Extra life</span></div>
     <div><img src="point.png" /><span>Point</span></div>
   </legend>
-  <button>start</button>
+  <h1 class="hidden">level 1</h1>
+  <div class="instructionsAndButton">
+    <p>DEADLY ASTEROIDS<br /><br />
+      You are the commander of a space ship that must find its way through a storm of deadly asteroids. You can control
+      the ship moving your phone.<br /><br />
+      Catch the blue objects to earn an extra life and the green one to score a point.<br /><br />
+      Beware! The mission gets harder and harder as time goes by!
+    </p>
+    <button>start</button>
+  </div>
   <script src="sound.js" type="module"></script>
   <script src="index.js" type="module"></script>
 </body>

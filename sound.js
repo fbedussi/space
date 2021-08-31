@@ -18,32 +18,33 @@ export function playTone(freq, duration = 500, volume = 0.25, type = 'square') {
   });
 }
 
-export function playStartsound() {
-  return playTone(300, 200).then(() => playTone(500, 100));
+export async function playStartsound() {
+  await playTone(300, 200)
+  await playTone(500, 100)
 }
 
-export function playGameOversound() {
-  return playTone(300, 150)
-    .then(() => playTone(250, 200))
-    .then(() => playTone(150, 250));
+export async function playGameOversound() {
+  await playTone(300, 150)
+  await playTone(250, 200)
+  await playTone(150, 250)
 }
 
-export function playWonTune() {
-  return playTone(440, 100)
-    .then(() => playTone(0, 50))
-    .then(() => playTone(440, 100))
-    .then(() => playTone(0, 50))
-    .then(() => playTone(400, 100))
-    .then(() => playTone(0, 50))
-    .then(() => playTone(700, 300));
+export async function playWonTune() {
+  await playTone(440, 100)
+  await playTone(0, 50)
+  await playTone(440, 100)
+  await playTone(0, 50)
+  await playTone(400, 100)
+  await playTone(0, 50)
+  await playTone(700, 300)
 }
 
-export function playLooseTune() {
-  return playTone(300, 400)
-    .then(() => playTone(0, 100))
-    .then(() => playTone(300, 400))
-    .then(() => playTone(250, 200))
-    .then(() => playTone(100, 250));
+export async function playLooseTune() {
+  await playTone(300, 400)
+  await playTone(0, 100)
+  await playTone(300, 400)
+  await playTone(250, 200)
+  await playTone(100, 250)
 }
 
 const noteFreqMap = {
