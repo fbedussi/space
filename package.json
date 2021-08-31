@@ -1,0 +1,14 @@
+{
+  "name": "deadly-asteroids",
+  "version": "1.0.0",
+  "description": "An entry for the 2021 edition of js13k",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf ./public && mkdir ./public && cp ./src/*.png ./public && cp ./src/*.html ./public && cp ./src/*.css ./public && node build.js && zip -r deadly-asteroids.zip ./public"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "uglify-js": "^3.14.1"
+  }
+}
