@@ -9,29 +9,31 @@ import {
 import Asteroid from './asteroid.js'
 import Ship from './ship.js'
 
-
 const startButton = document.querySelector('button')
-const legend = document.querySelector('legend')
+const legend = document.querySelector('ul')
 const statusBar = document.querySelector('.statusBar')
-const instructions = document.querySelector('p')
-const levelLabel = document.querySelector('h1')
-const canvas = document.querySelector('#canvas')
+const instructions = document.querySelector('.instructions')
+const levelLabel = document.querySelector('h2')
+const gameOverLabel = document.querySelector('h3')
+const canvas = document.querySelector('canvas')
 canvas.setAttribute('height', window.innerHeight)
 canvas.setAttribute('width', window.innerWidth)
 const ctx = canvas.getContext('2d')
 
-const numberOfAstroids = 30
-const numberOfPowerUps = 5
-const numberOfPoints = 10
+const NUMBER_OF_ASTEROIDS = 30
+const NUMBER_OF_NEW_ASTEROIDS = 5
+const NUMBER_OF_POWER_UPS = 5
+const NUMBER_OF_POINTS = 10
 
-let speed = 5
-let score = 0
-let cycles = 0
-let level = 1
+let speed
+let score
+let cycles
+let level
+let gameOver
 
-let asteroids = (new Array(numberOfAstroids).fill(0)).map(() => new Asteroid('asteroid.png', speed, ctx))
-const powerUps = (new Array(numberOfPowerUps).fill(0)).map(() => new Asteroid('life.png', speed, ctx))
-const points = (new Array(numberOfPoints).fill(0)).map(() => new Asteroid('point.png', speed, ctx))
+let asteroids = (new Array(NUMBER_OF_ASTEROIDS).fill(0)).map(() => new Asteroid('asteroid.png', ctx))
+const powerUps = (new Array(NUMBER_OF_POWER_UPS).fill(0)).map(() => new Asteroid('life.png', ctx))
+const points = (new Array(NUMBER_OF_POINTS).fill(0)).map(() => new Asteroid('point.png', ctx))
 
 const ship = new Ship(ctx)
 
@@ -46,78 +48,94 @@ const checkCollided = (items) => items.find(({posX, posY, radius}) => {
 })
 
 const drawText = () => {
-  statusBar.innerHTML = `<span>Lives: ${ship.lives}</span><span>Score: ${score}</span><span>Level: ${level}</span>` 
+  statusBar.innerHTML = `<span>Lives:<span class="space"></span>${ship.lives}</span><span>Litter:<span class="space"></span>${score}</span><span>Level:<span class="space"></span>${level}</span>` 
 }
 
 const showLevelLabel = (level) => {
-  levelLabel.innerText = `level ${level}`
+  levelLabel.innerHTML = `level<span class="space"></span>${level}`
   levelLabel.classList.remove('hidden')
   setTimeout(() => {
     levelLabel.classList.add('hidden')
   }, 800)
 }
 
-let playing
-
 const loop = async () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+  ship.draw()
+  drawText()
+  
+  window.requestAnimationFrame(loop)
+
+  if (gameOver) {
+    return
+  }
+
+  if (ship.lives === 0) {
+    gameOverLabel.classList.remove('hidden')
+    startButton.classList.remove('hidden')
+    stopTune()
+    ship.stop()
+    navigator.vibrate(400);
+    gameOver = true
+    return
+  } 
+
   cycles++
   if (cycles % 1500 === 0) {
     level++
     speed++
     showLevelLabel(level)
-    const newAsteroids = (new Array(5).fill(0)).map(() => new Asteroid('asteroid.png', speed, ctx))
-    asteroids = asteroids.concat(newAsteroids)
-  } 
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
+    asteroids = asteroids.concat((new Array(NUMBER_OF_NEW_ASTEROIDS).fill(0)).map(() => new Asteroid('asteroid.png', ctx)))
+    asteroids.forEach(asteroid => asteroid.init(speed + Math.random()))
+  }
+
   asteroids.forEach(asteroid => asteroid.move())
   powerUps.forEach(powerUp => powerUp.move())
   points.forEach(point => point.move())
-  ship.draw()
-  drawText()
-  if (ship.lives === 0) {
-    stopTune()
-    ship.stop()
-    startButton.hidden = false
-    await playing
-    playGameOversound()
-  } else {
-    window.requestAnimationFrame(loop)
-  }
+  
   const asteroidCollided = checkCollided(asteroids)
   if (asteroidCollided) {
     ship.explode()
-    playing = playLooseTune()
+    navigator.vibrate(200);
+    ship.lives > 0 ? playLooseTune() : playGameOversound()
     asteroidCollided.init(speed)
   }
   const extraLiveCollided = checkCollided(powerUps)
   if (extraLiveCollided) {
     ship.addLife()
-    playing = playWonTune()
+    playWonTune()
     extraLiveCollided.init(speed)
   }
   const pointCollided = checkCollided(points)
   if (pointCollided) {
     score++
-    playing = playWonTune()
+    playWonTune()
     pointCollided.init(speed)
   }
 }
 
 const start = () => {
-  startButton.hidden = true
+  gameOverLabel.classList.add('hidden')
+  startButton.classList.add('hidden')
+  instructions.classList.add('hidden')
+
   statusBar.hidden = false
   legend.hidden = false
-  instructions.hidden = true
+  
   score = 0
-  speed = 5
+  speed = 4
   level = 1
+  cycles = 0
+  gameOver = false
+
   playStartsound()
+  playTune()
   ship.init()
   showLevelLabel(level)
-  asteroids.forEach(asteroid => asteroid.init(speed))
-  powerUps.forEach(powerUp => powerUp.init(speed))
-  points.forEach(point => point.init(speed))
-  playTune()
+  asteroids.forEach(asteroid => asteroid.init(speed + Math.random()))
+  powerUps.forEach(powerUp => powerUp.init((speed * 1.1) + Math.random()))
+  points.forEach(point => point.init((speed * 1.2) + Math.random()))
   loop()
 }
 

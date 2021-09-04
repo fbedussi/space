@@ -1,9 +1,7 @@
 class Asteroid  {
-  constructor(imageName, speed, ctx) {
+  constructor(imageName, ctx) {
     this.imageName = imageName
-    this.speed = speed
     this.ctx = ctx
-    this.init(this.speed)
   }
   
   init(speed) {

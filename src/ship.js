@@ -8,8 +8,8 @@ class Ship {
     this.rocketsHeight = Math.round(this.height / 2)
     this.rockets = [new Image(), new Image()];
     this.rockets.forEach((rocket, i) => rocket.src = `rockets${i}.png`)
-    this.explosions = [new Image(), new Image(), new Image(), new Image()]
-    this.explosions.forEach((explosion, i) => explosion.src = `explosion${i}.png`)
+    this.explosions = new Array(16).fill(0).map(() => new Image())
+    this.explosions.forEach((explosion, i) => explosion.src = `explosion${i % 4}.png`)
     this.rocketToDraw = 0
     this.rocketsOn = false
     this.explosionIndex = null
@@ -51,10 +51,8 @@ class Ship {
     }
     if (this.explosions[this.explosionIndex]) {
       this.ctx.drawImage(this.explosions[this.explosionIndex], this.posX, this.posY, this.width, this.height)
-      if (this.explosionIndex < this.explosions.length - 2) {
-        setTimeout(() => {
-          this.explosionIndex++
-        }, 50)
+      if (this.explosionIndex !== null && this.explosionIndex < this.explosions.length - 1) {
+        this.explosionIndex++
       } else {
         this.explosionIndex = null
       }
