@@ -30,8 +30,8 @@ let score
 let cycles
 let level
 let gameOver
+let asteroids
 
-let asteroids = (new Array(NUMBER_OF_ASTEROIDS).fill(0)).map(() => new Asteroid('asteroid.png', ctx))
 const powerUps = (new Array(NUMBER_OF_POWER_UPS).fill(0)).map(() => new Asteroid('life.png', ctx))
 const points = (new Array(NUMBER_OF_POINTS).fill(0)).map(() => new Asteroid('point.png', ctx))
 
@@ -128,6 +128,7 @@ const start = () => {
   level = 1
   cycles = 0
   gameOver = false
+  asteroids = (new Array(NUMBER_OF_ASTEROIDS).fill(0)).map(() => new Asteroid('asteroid.png', ctx))
 
   playStartsound()
   playTune()
