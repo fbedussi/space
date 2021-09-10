@@ -8,6 +8,9 @@ import {
 } from './sound.js'
 import Asteroid from './asteroid.js'
 import Ship from './ship.js'
+import NoSleep from './no-sleep.js';
+
+const noSleep = new NoSleep()
 
 const startButton = document.querySelector('button')
 const legend = document.querySelector('ul')
@@ -29,8 +32,8 @@ let speed
 let score
 let cycles
 let level
-let gameOver
-let asteroids
+let gameOver = true
+let asteroids = []
 
 const powerUps = (new Array(NUMBER_OF_POWER_UPS).fill(0)).map(() => new Asteroid('life.png', ctx))
 const points = (new Array(NUMBER_OF_POINTS).fill(0)).map(() => new Asteroid('point.png', ctx))
@@ -78,6 +81,7 @@ const loop = async () => {
     ship.stop()
     navigator.vibrate(400);
     gameOver = true
+    noSleep.disable()
     return
   } 
 
@@ -130,6 +134,8 @@ const start = () => {
   gameOver = false
   asteroids = (new Array(NUMBER_OF_ASTEROIDS).fill(0)).map(() => new Asteroid('asteroid.png', ctx))
 
+  noSleep.enable()
+
   playStartsound()
   playTune()
   ship.init()
@@ -137,7 +143,8 @@ const start = () => {
   asteroids.forEach(asteroid => asteroid.init(speed + Math.random()))
   powerUps.forEach(powerUp => powerUp.init((speed * 1.1) + Math.random()))
   points.forEach(point => point.init((speed * 1.2) + Math.random()))
-  loop()
 }
+
+loop()
 
 startButton.addEventListener('click', start)

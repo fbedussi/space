@@ -4,7 +4,7 @@
   "description": "An entry for the 2021 edition of js13k",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./public && mkdir ./public && cp ./src/*.png ./public && cp ./src/*.html ./public && cp ./src/*.css ./public && node build.js && zip -r deadly-asteroids.zip ./public"
+    "build": "rm -rf ./space-sweeper && mkdir ./space-sweeper && cp ./src/*.png ./space-sweeper && cp ./src/*.woff2 ./space-sweeper && cp ./src/*.html ./space-sweeper && cp ./src/*.css ./space-sweeper && node build.js && zip -r space-sweeper.zip ./space-sweeper"
   },
   "author": "",
   "license": "ISC",
