@@ -8,9 +8,7 @@ import {
 } from './sound.js'
 import Asteroid from './asteroid.js'
 import Ship from './ship.js'
-import NoSleep from './no-sleep.js';
-
-const noSleep = new NoSleep()
+import {requestWakeLock, releaseWakeLock} from './no-sleep.js';
 
 const startButton = document.querySelector('button')
 const legend = document.querySelector('ul')
@@ -81,7 +79,7 @@ const loop = async () => {
     ship.stop()
     navigator.vibrate(400);
     gameOver = true
-    noSleep.disable()
+    releaseWakeLock()
     return
   } 
 
@@ -134,7 +132,7 @@ const start = () => {
   gameOver = false
   asteroids = (new Array(NUMBER_OF_ASTEROIDS).fill(0)).map(() => new Asteroid('asteroid.png', ctx))
 
-  noSleep.enable()
+  requestWakeLock()
 
   playStartsound()
   playTune()
