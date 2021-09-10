@@ -4,7 +4,7 @@
   "description": "An entry for the 2021 edition of js13k",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./space-sweeper && mkdir ./space-sweeper && cp ./src/*.png ./space-sweeper && cp ./src/*.woff2 ./space-sweeper && cp ./src/*.html ./space-sweeper && cp ./src/*.css ./space-sweeper && node build.js && zip -r space-sweeper.zip ./space-sweeper"
+    "build": "rm -rf ./space-sweeper && mkdir ./space-sweeper && cp ./src/*.png ./space-sweeper && cp ./src/*.woff2 ./space-sweeper && cp ./src/*.html ./space-sweeper && cp ./src/*.css ./space-sweeper && node build.js && cd ./space-sweeper && zip -9 ../space-sweeper.zip ./* && cd .."
   },
   "author": "",
   "license": "ISC",
